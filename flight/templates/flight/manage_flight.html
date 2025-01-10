@@ -1,0 +1,93 @@
+{% extends 'flight/layout3.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Manage Flights | Flight</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manage_flights.css' %}">
+{% endblock head %}
+
+{% block body %}
+<section class="section section1" style="background: url({% static 'img/manage_flights_bg.svg' %}) no-repeat top center; background-size: cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="section-heading">
+                    <h1 class="mt-4">Manage Flights</h1>
+                    <div class="line-dec"></div>
+                </div>
+
+                <!-- Success Message -->
+                {% if messages %}
+                    <div class="alert alert-success mb-4">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Search Form -->
+                <form method="GET" action="{% url 'manage_flights' %}" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" name="q" placeholder="Search by Flight Number" value="{{ query }}" class="form-control">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Table for managing flights -->
+                <table class="table table-bordered table-striped mt-4">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Departure Time</th>
+                            <th>Duration</th>
+                            <th>Arrival Time</th>
+                            <th>Plane</th>
+                            <th>Airline</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for flight in page_obj %}
+                        <tr>
+                            <td>{{ flight.id }}</td>
+                            <td>{{ flight.depart_time|time:"H:i" }}</td>
+                            <td>{{ flight.duration }}</td>
+                            <td>{{ flight.arrival_time|time:"H:i" }}</td>
+                            <td>{{ flight.plane }}</td>
+                            <td>{{ flight.airline }}</td>
+                            <td>
+                                <a href="{% url 'edit_flight' flight.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{% url 'delete_flight' flight.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center">No flights available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <!-- Centered Pagination Controls -->
+                <div class="pagination" style="display: flex; justify-content: center; align-items: center;">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary mr-2">Previous</a>
+                    {% endif %}
+                    
+                    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary ml-2">Next</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

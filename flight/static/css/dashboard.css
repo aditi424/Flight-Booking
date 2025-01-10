@@ -1,0 +1,54 @@
+/* Styling the table and buttons for flight management */
+
+.container {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+}
+
+td {
+    text-align: center;
+}
+
+/* Warning button for actions like edit */
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Danger button for actions like delete */
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Smaller button size */
+.btn-sm {
+    font-size: 0.9rem;
+}
+
+.text-center {
+    text-align: center;
+}

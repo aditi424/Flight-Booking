@@ -1,0 +1,49 @@
+{% extends 'flight/layout3.html' %}
+
+{% load static %}
+
+{% block head %}
+    <title>Edit Flight | Flight Management</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/edit_flight.css' %}">
+{% endblock head %}
+
+{% block body %}
+<section class="section edit-flight-section" style="background: url({% static 'img/edit_flight_bg.svg' %}) no-repeat top center; background-size: cover;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="section-heading">
+          <h1>Edit Flight</h1>
+          <div class="line-dec"></div>
+        </div>
+
+        <form method="POST" action="{% url 'edit_flight' flight.id %}">
+          {% csrf_token %}
+
+          <!-- Remove Departure Time and Arrival Time inputs -->
+
+          <div class="form-group">
+              <label for="duration">Duration:</label>
+              <input type="text" name="duration" id="duration" value="{{ flight.duration }}" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+              <label for="plane">Plane:</label>
+              <input type="text" name="plane" id="plane" value="{{ flight.plane }}" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+              <label for="airline">Airline:</label>
+              <input type="text" name="airline" id="airline" value="{{ flight.airline }}" class="form-control" required>
+          </div>
+          
+          <div class="form-buttons">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{% url 'manage_flights' %}" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock body %}

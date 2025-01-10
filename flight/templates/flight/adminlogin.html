@@ -1,0 +1,54 @@
+{% extends "flight/layout2.html" %}
+
+{% load static %}
+
+{% block title %}
+    Admin Login | Flight Booking
+{% endblock %}
+
+{% block body %}
+    <div class="user-box">
+        <div>
+            <center>
+                <img src="{% static 'img/flyerlogo.png' %}" height="35em" style="margin-bottom: 2vh;">
+                <h3>Admin Login</h3><br>
+            </center>
+        </div>
+    
+        <form action="{% url 'adminlogin' %}" method="post" id="signin-form" style="width: 100%;margin-bottom: 5vh;">
+            {% csrf_token %}
+            <div class="form-group">
+                <input class="form-control inp usrnm" type="text" name="username" placeholder="Username" autocomplete="off" autofocus>
+            </div>
+            <div class="form-group">
+                <input class="form-control inp pswd" type="password" name="password" placeholder="Password" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <input class="form-control inp pkey" type="password" name="passkey" placeholder="Passkey" autocomplete="off">
+                <span class="star"><small>{{ message }}</small></span>
+            </div>
+            <center>
+                <input class="btn btn-primary" type="submit" value="Log in" style="margin-top: 10px; width: 95%;" disabled>
+            </center>
+        </form>
+    
+        <div>
+            <center>
+                Don't have an admin account?&nbsp;&nbsp;<a href="{% url 'adminregister' %}">Register</a>
+            </center>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".inp").forEach(input => {
+                input.addEventListener('input', () => {
+                    const username = document.querySelector('.usrnm').value;
+                    const password = document.querySelector('.pswd').value;
+                    const passkey = document.querySelector('.pkey').value;
+                    document.querySelector('input[type="submit"]').disabled = username.length === 0 || password.length === 0 || passkey.length === 0;
+                });
+            });
+        });
+    </script>
+{% endblock %}
